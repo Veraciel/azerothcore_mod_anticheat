@@ -20,6 +20,12 @@
 #include "Configuration/Config.h"
 #include "Player.h"
 
+#if AC_COMPILER == AC_COMPILER_GNU
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+using namespace Acore::ChatCommands;
+
 class anticheat_commandscript : public CommandScript
 {
 public:
