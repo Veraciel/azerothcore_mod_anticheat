@@ -23,7 +23,7 @@ public:
 	void OnLogin(Player* player) override
 	{
 		sAnticheatMgr->HandlePlayerLogin(player);
-		if(sConfigMgr->GetBoolDefault("Anticheat.LoginMessage", true))
+		if(sConfigMgr->GetOption<bool>("Anticheat.LoginMessage", true))
 			ChatHandler(player->GetSession()).PSendSysMessage("This server is running an Anticheat Module.");
 	}
 };
@@ -45,7 +45,7 @@ public:
 		}
 		if (sWorld->GetUptime() > lastIterationPlayer)
 		{
-			lastIterationPlayer = sWorld->GetUptime() + sConfigMgr->GetIntDefault("Anticheat.SaveReportsTime", 60);
+			lastIterationPlayer = sWorld->GetUptime() + sConfigMgr->GetOption<uint32>("Anticheat.SaveReportsTime", 60);
 			sLog->outString( "Saving reports for %u players.", sWorld->GetPlayerCount());
 
 			for (SessionMap::const_iterator itr = sWorld->GetAllSessions().begin(); itr != sWorld->GetAllSessions().end(); ++itr)
@@ -71,7 +71,7 @@ class AnticheatMovementHandlerScript : public MovementHandlerScript
 	}
     void OnPlayerMove(Player* player, MovementInfo mi, uint32 opcode) override
     {
-		if (!AccountMgr::IsGMAccount(player->GetSession()->GetSecurity()) || sConfigMgr->GetBoolDefault("Anticheat.EnabledOnGmAccounts", false))
+		if (!AccountMgr::IsGMAccount(player->GetSession()->GetSecurity()) || sConfigMgr->GetOption<bool>("Anticheat.EnabledOnGmAccounts", false))
 			sAnticheatMgr->StartHackDetection(player, mi, opcode);
     }
 };
